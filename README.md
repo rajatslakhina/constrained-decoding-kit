@@ -20,7 +20,7 @@ Constrained:    {"title":"Crash when rotating the photo editor","priority":"high
 
 Both outputs are pinned byte-for-byte by the test suite (`testGreedyGoldenOutput`, `testUnconstrainedBaselineEmitsInvalidOutput`). In a 20-seed sweep at temperature 1.4, **0/20** unconstrained outputs were schema-valid and **20/20** constrained outputs were (`testDocumentedSeedSweep`).
 
-Demo app: (added after the companion repo is pushed — see below)
+**Demo app:** [constrained-decoding-demo-app](https://github.com/rajatslakhina/constrained-decoding-demo-app). An iOS app that consumes this package from GitHub (`v1.0.0`) and shows both lanes side by side with a masked-mass strip and a seed sweep.
 
 ---
 
@@ -160,7 +160,14 @@ To see it run as an app, use the companion demo repo (link above). Or add the pa
 - **CI** ([Actions](../../actions)) has two jobs:
   - Linux (Swift 6.0 container): build and test with warnings as errors.
   - macOS 15: build and test, then an `xcodebuild` build of every product for `generic/platform=iOS Simulator`. That last step is what compiles `ConstrainedDecodingUI`.
-- **Simulator**: the companion demo repo states exactly what was and was not run on a Simulator.
+- **CI on the `v1.0.0` commit (`258e961`)**: both jobs passed. The macOS job's `swift test` runs the same golden-output and sweep tests, so those numbers hold on macOS as well as Linux.
+- **Simulator**: **not run.** The demo app compiles for the iOS Simulator in the demo repo's CI, but nobody has launched it on one: Xcode was holding an unrelated project during this run. The demo README says exactly what that does and doesn't prove.
+- **Independent review**: three rounds by a separate reviewer model, each round's findings fixed before push. The **third round's fixes were not reviewed again**, because the process stops at three rounds. Those fixes were:
+  - the absolute step-budget ceiling;
+  - the `ConstrainedDecodingError` rename;
+  - the 99% guide line on the strip;
+  - `-onlyUsePackageVersionsFromResolvedFile` in the demo's CI;
+  - narrower README claims.
 
 ## License
 
